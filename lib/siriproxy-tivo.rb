@@ -9,13 +9,13 @@ class SiriProxy::Plugin::Tivo < SiriProxy::Plugin
 		self.short_delay = config["short_delay"]
 	end
 
-	listen_for /tivo search (.*)/i do |show|
+	listen_for /cable search (.*)/i do |show|
 		error = tivoSearch(show)
 		say "I'm sorry, a problem occurred connecting to your TiVo" if error < 0
 		request_completed
 	end
 
-	listen_for /tivo (.*)/i do |command|
+	listen_for /cable (.*)/i do |command|
 		tivoCommand(command)
 		request_completed
 	end
@@ -64,10 +64,10 @@ def tivoCommand(command)
 	return 0
 end
 
-#search routine. Intercepts "tivo search ____"
+#search routine. Intercepts "cable search ____"
 #first parameter is whatever you were searching for; second is TCP
 #connection to your TiVo
-def do_search(searchTerm, tivo)
+def do_search(searchTerm, cable)
 	return unless searchTerm #ignore empty searches
 	say 'Continue with your TiVo remote'
 	term = searchTerm.dup
